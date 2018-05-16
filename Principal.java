@@ -8,7 +8,7 @@
  * 												Fernando H. de M. Bastos - RA: 104923
  * 												     Thais A. Bispo - RA: 187386
  * 
- *  				"Etapa 2: Release 0 (17/04): Apresentar uma vers„o inicial do software com sua estrutura geral implementada."
+ *  				"Etapa 2: Release 0 (17/04): Apresentar uma vers√£o inicial do software com sua estrutura geral implementada."
  *  
  *  	O codigo a seguir representa o release 0 de um sistema de administracao de um estacionamento, junto a um andar especializado no
  * aluguel de 10 carros ja disponiveis na inicializacao do objeto Estacionamento. As funcoes suportadas consistem em: impressao dos carros
@@ -34,7 +34,7 @@ public class Principal { //inicio da classe Principal
 
 	public static void main(String[] args) { //inicio do main
 		double[] precoGaragem = {20, 35, 50, 65};
-		double[] precoAluguel = {50, 100, 145, 190}; //precos de estacionamento e de aluguel
+		double[] precoAluguel = {50, 100, 145, 185}; //precos de estacionamento e de aluguel
 		
 		Estacionamento e1 = new Estacionamento (10, 10, precoGaragem, precoAluguel, 12, 1.5); //inicia objeto estacionamento
 		//com limite de multas igual a 12 e taxa de 150% do preco
@@ -59,7 +59,7 @@ public class Principal { //inicio da classe Principal
 						+ " ,ano, renavam e quilometragem");
 						
 				Carro novoCarro = new Carro (scan.next(), scan.next(), scan.next(), scan.next(), scan.next(), scan.next(),
-						scan.nextInt(), scan.next(), scan.next());
+						scan.nextInt(), scan.next(), scan.nextInt());
 				//cria um obejeto carro com os dados fornecidos 
 				
 				System.out.println("Entre com dados pessoais na ordem: nome, data de nascimento, CPF, numero de semanas estacionado" +
@@ -101,9 +101,10 @@ public class Principal { //inicio da classe Principal
 				
 			}else if(comando == RETORNAR) {
 				
-				System.out.println("Entre com a placa do carro: ");
-				e1.devolverCarroAluguel(scan.next()); //le placa do carro retornado
+				System.out.println("Entre com a placa do carro e a nova quilometragem: ");
+				e1.devolverCarroAluguel(scan.next(), scan.nextInt()); //le placa do carro retornado
 				
+
 				System.out.println("\nEntre com a operacao desejada\n -1:CANCELAR\n 1:ESTACIONAR\n 2:DESESTACIONAR\n 3:"
 						+ "ALUGAR\n 4:RETORNAR ALUGUEL\n 5:PROCURAR CARRO\n 6:IMPRIMIR_CLIENTE\n 7:IMPRIMIR ANDARES\n");
 				comando = scan.nextInt(); //le proximo comando
@@ -150,3 +151,4 @@ public class Principal { //inicio da classe Principal
 		} 		
 	} //fim do metodo main
 } //fim da classe Principal
+
