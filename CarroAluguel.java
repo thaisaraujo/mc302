@@ -4,7 +4,7 @@ public class CarroAluguel extends Carro { //inicio da classe CarroAluguel
 	private boolean alugado = false; 
 
 	public CarroAluguel(String marca, String modelo, String placa, String chassi, String cor, String combustivel,
-			int ano, String renavam, String quilometragem, int ID) { //inicio do metodo construtor
+			int ano, String renavam, int quilometragem, int ID) { //inicio do metodo construtor
 		super(marca, modelo, placa, chassi, cor, combustivel, ano, renavam, quilometragem);
 	} //fim do metodo construtor
 
@@ -17,3 +17,4 @@ public class CarroAluguel extends Carro { //inicio da classe CarroAluguel
 	} //fim do metodo setAlugado
 
 } //fim da classe CarroAluguel
+
