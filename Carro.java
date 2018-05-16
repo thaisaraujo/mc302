@@ -1,4 +1,5 @@
 
+
 public class Carro { //inicio da classe Carro
 	
 	private String marca;
@@ -9,11 +10,12 @@ public class Carro { //inicio da classe Carro
 	private String combustivel;
 	private int ano;
 	private String renavam;
-	private String quilometragem; //dados do carro
+	
+	private int quilometragem; //dados do carro
 	private AndarGaragem andarLocalizado;
 	private int[] localizacao; //dados de carro, com objetos para o andar que esta estacionado e vetor
 	
-	public Carro (String marca, String modelo, String placa, String chassi, String cor, String combustivel, int ano, String renavam, String quilometragem) {
+	public Carro (String marca, String modelo, String placa, String chassi, String cor, String combustivel, int ano, String renavam,  int quilometragem) {
 		//inicio do metodo construtor
 		this.marca = marca;
 		this.modelo = modelo;
@@ -23,6 +25,7 @@ public class Carro { //inicio da classe Carro
 		this.combustivel = combustivel;
 		this.ano = ano;
 		this.renavam = renavam;
+	
 		this.quilometragem = quilometragem;
 	} //fim do metodo construtor
 	
@@ -58,10 +61,13 @@ public class Carro { //inicio da classe Carro
 		return renavam;
 	} //fim do metodo getRenavam
 	
-	public String getQuilometragem() { //inicio do metodo getQuilometragem
+	public int getQuilometragem() { //inicio do metodo getQuilometragem
 		return quilometragem;
 	} //fim do metodo getQuilometragem
 
+	public void setQuilometragem(int novaQuilo) { //inicio do metodo setQuilometragem
+		novaQuilo = quilometragem;
+	}
 	public void imprimeCarro() { //inicio do metodo imprimeCarro
 		System.out.printf("%s  ", getPlaca());
 	} //fim do metodo imprimeCarro
