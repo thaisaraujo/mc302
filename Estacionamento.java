@@ -1,6 +1,10 @@
 import java.util.ArrayList;
 
+
+
 public class Estacionamento{ //inicio da classe Estacionamento
+	
+	private int novaQuilometragem;
 	private double[] precosGaragem;
 	private double[] precosAluguel; //guarda precos em vetor, aumentando de acordo com periodo
 	private AndarGaragem[] vetorAndares; //vetor de 4 andares para estacionamento
@@ -87,8 +91,8 @@ public class Estacionamento{ //inicio da classe Estacionamento
 	}  //fim do metodo imprimeTabelaPrecos
 	
 	public void imprimeTabelaPrecosAluguel() { //imprime tabela de precos de estacionamento
-		System.out.printf("Ate uma semana: %d \n De uma a duas semanas: %f \n De duas a tres semanas: %f \n Tres semanas ou mais: %f \n",
-				 precosAluguel[0], precosAluguel[1], precosAluguel[2], precosAluguel[3]);
+		System.out.printf("Ate uma semana: %d \n De uma a duas semanas: %f \n De duas a tres semanas: %f \n  De tres a quatro semanas: %f \n Mais de quatro semanas é o valor de %d por el número de semanas",
+				 precosAluguel[0], precosAluguel[1], precosAluguel[2], precosAluguel[3],precosAluguel[0]);
 	}  //fim do metodo imprimeTabelaPrecosAluguel
 
 	public double calcularMontanteEstacionamento(Cliente cliente) {
@@ -120,18 +124,25 @@ public class Estacionamento{ //inicio da classe Estacionamento
 		}
 	} //fim do metodo alugarCarro
 	
-	public void devolverCarroAluguel(String placa) { //inicio do mateodo devolverCarroAlugue
+	public void devolverCarroAluguel(String placa, int novaQuilometragem) { //inicio do mateodo devolverCarroAlugue
 		
 		for(ClienteAluguel clienteTemp : listaClientesAluguel) {
 			if(placa.equals(clienteTemp.getCarro().getPlaca())) { //busca carro alugado com placa especificada
 				andarDeAluguel.retornaAlugado(clienteTemp.getIDAlugado()); //marca carro como disponivel
-				System.out.printf("Carro %s retornado. O valor a ser pago eh igual a %f \n", 
-						clienteTemp.getCarro().getPlaca() ,calcularMontanteAluguel(clienteTemp));
+	
+				double diferençaQuilometragem = novaQuilometragem - clienteTemp.getCarro().getQuilometragem() ;
+				System.out.printf("Carro %s retornado. O valor a ser pago por quilometragem é igual a %f \n",
+						clienteTemp.getCarro().getPlaca() ,calcularMontanteAluguelQuilometragem(diferençaQuilometragem));						
+				System.out.printf("Carro %s retornado. O valor final a ser pago com a tarifa base e tarifa quilometragem é igual a %f \n", 
+						clienteTemp.getCarro().getPlaca() ,calcularMontanteAluguel(clienteTemp)+ calcularMontanteAluguelQuilometragem(diferençaQuilometragem));
+//				clienteTemp.getCarro().setQuilometragem(novaQuilometragem);
 				this.descadastrarClienteAluguel(clienteTemp.getCPF()); //cobra o cliente e o retira da lista
 				break;
 			}
 		}		
 	} //fim do metodo devolverCarroAluguel
+
+	
 	
 	public void cadastrarClienteAluguel(ClienteAluguel cliente) { //inicio do metodo cadastrarClienteAluguel
 		listaClientesAluguel.add(cliente);
@@ -155,24 +166,43 @@ public class Estacionamento{ //inicio da classe Estacionamento
 	
 	public double calcularMontanteAluguel(ClienteAluguel cliente) { //inicio do metodo calcularMontanteAluguel
 		
+		
+		
 		int periodo = cliente.getPeriodoSemanas();
-		
-		double taxa = 1;
-		if(cliente.getQtdMultas() > andarDeAluguel.getLimiteMultas())
+		double taxa = 1.00;
+		if(cliente.getQtdMultas() > andarDeAluguel.getLimiteMultas()) {
 			taxa = andarDeAluguel.getTaxaMultas(); //se o cliente passou do limite de multas, aumenta o preco por taxa
-		
+		}
+				
 		if(periodo < 1) {
 			return taxa * precosAluguel[0];
 		}else if(periodo >= 1 && periodo < 2){
 			return taxa * precosAluguel[1];
 		}else if(periodo >= 2 && periodo < 3) {
 			return taxa * precosAluguel[2];
-		}else if(periodo >= 3) {
+		}else if(periodo >= 3 && periodo < 4) {
 			return taxa * precosAluguel[3];
 		} //retorna o valor do vetor presente na posicao adequada ao periodo de servico
-		
+		else if(periodo >= 4) {
+			return taxa * precosAluguel[0]*periodo;
+		}
 		return 0;
 	} //fim de calcularMontanteAluguel
+	
+	public double calcularMontanteAluguelQuilometragem( double diferençaQuilo) { //inicio do metodo calcularMontanteAluguel
+		
+   
+		double preçoQuilometragem = 0;
+		if(diferençaQuilo< 500) {
+			preçoQuilometragem = diferençaQuilo *1.99; 
+		}else if (diferençaQuilo >= 500 && novaQuilometragem < 1000) {
+			preçoQuilometragem = diferençaQuilo *2.99; 
+		}else if (diferençaQuilo >= 1000){
+			preçoQuilometragem = diferençaQuilo *3.5; 
+		}
+		return preçoQuilometragem;
+		
+	} //fim de calcularMontanteAluguelQuilometragem
 	
 	
 	public int numeroDeCarrosAluguel() { //inicio do metodo numeroDeCarrosAluguel
@@ -211,3 +241,4 @@ public class Estacionamento{ //inicio da classe Estacionamento
 		System.out.println("####################\n");
 	} //fim do metodo imprimirEstacionamento
 } //fim da classe Estacionamento
+
