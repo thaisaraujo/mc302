@@ -1,0 +1,73 @@
+Gerenciador de Garagem:
+- procurar carro 
+- método: estacionar
+- método: desestacionar
+- método: procurar carro (polimorfismo - cpf:log int; nome e cpf)
+
+Gerenciador de Aluguel:
+- método: alugar carro
+- método: retornar carro
+
+Andar Abs:
+- método: imprimir preço
+- método: imprimir andar (lembrete: tipos de carros - catálogo)
+
+Andar Aluguel:
+- número de carros alugados: total de carros 
+
+Andar Garagem:
+- atributo: mapa de vagas
+
+Estacionamento:
+- carro
+- andar aluguel
+- andar garagem
+
+Cliente;
+- pagamento (polimorfismo)
+
+Gerenciador Cliente Abstract:
+- cadastrar cliente
+- descadastrar
+- calcular motante (?!)
+- imprimirCliente
+
+Gerenciador de Cliente Aluguel:
+- list de cliente aluguel
+- Andar Aluguel
+
+
+Gerenciador de Cliente Estacionamento:
+- list de cliente estac
+- Andar Garagem
+-----------------------------------------------------------------------------------------------------
+
+PACOTE ENTIDADE ?1 
+CLIENTE ABS (OK): THAIS
+CLIENTE ALUGUEL (OK): THAIS
+CLIENTE GARAGEM (OK): THAIS
+CARRO (OK): CAIO
+CARRO ALUGUEL (OK): CAIO
+
+PACOTE ENTIDADE ?2 
+ANDAR: ALVARO
+ANDAR GARAGEM: CAIO
+ANDAR ALUGUEL: ALVARO 
+ESTACIONAMENTO: CAIO
+
+PACOTE GERENCIADOR
+GERENCIADOR GARAGEM: CAIO
+GERENCIADOR ALGUEL:ALVARO
+GERENCI CLIENTE ABS (interface ?): THAIS
+GERENC CLIENTE EST: THAIS
+GERENCI CLIENTE ALUGUEL: THAIS
+
+PACOTE PRINCIPAL:
+PRINCIPAL (ENUM - COMANDOS): THAIS
+
+
+
+
+
+
+
