@@ -1,8 +1,13 @@
 
 
+
+import java.util.Scanner;
+
 public class AndarAluguel extends Andar { //inicio do metodo AndarAluguel
 	private final int MAX_CARRO = 10; //variavel magic number
 	
+	private double diariaAluguel; 
+	private double precoSeguro;
 	private boolean aluguelDisponivel = true;
 	private int numParaAluguel = MAX_CARRO;
 	private int limiteMultas;
@@ -10,26 +15,29 @@ public class AndarAluguel extends Andar { //inicio do metodo AndarAluguel
 	private CarroAluguel [] carrosAluguel = new CarroAluguel[MAX_CARRO]; //vetor de 10 carros pre estabelescidos para aluguel
 	//aumenta valor do preco por taxaMultas de numero de multas do cliente ultrapassa limiteMultas
 	
-	public AndarAluguel(int nomeAndar,  int limiteMultas, double taxaMultas) { //inicio do metodo construtor
+	
+	private Scanner scan = new Scanner(System.in);
+	
+	public AndarAluguel(int nomeAndar,  int limiteMultas, double taxaMultas, double diariaAluguel, double precoSeguro) { //inicio do metodo construtor
 		super(nomeAndar);
 		this.limiteMultas = limiteMultas;
 		this.taxaMultas = taxaMultas; //chama construtor de super classe e atribui limite de multas e taxa
 				
-		carrosAluguel[0] = new CarroAluguel ("Marca 1", "Modelo1", "KHJ9531", "8372738", "vermelho", "80", 2016, "kgm101", 15000, 0);
-		carrosAluguel[1] = new CarroAluguel ("Marca 2", "Modelo2", "DME8366", "831234738", "verde", "44", 2016, "fjek1234", 10000, 1);
-		carrosAluguel[2] = new CarroAluguel ("Marca 1", "Modelo3", "LMD0293", "28381924", "vermelho", "70", 2015, "kek6942", 51000, 2);
-		carrosAluguel[3] = new CarroAluguel ("Marca 1", "Modelo1", "KEM3942", "312731271", "preto", "20", 2014, "kfdk323124", 35000, 3);
-		carrosAluguel[4] = new CarroAluguel ("Marca 2", "Modelo2", "MEM2938", "5838283289", "vermelho", "65", 2017, "mlemle9392", 22000, 4);
-		carrosAluguel[5] = new CarroAluguel ("Marca 3", "Modelo4", "LEL5464", "83828392", "branco", "70", 2017, "meme9492", 20000, 5);
-		carrosAluguel[6] = new CarroAluguel ("Marca 3", "Modelo4", "LEK3212", "75636234", "azul", "80", 2018, "ltoel2423",2000, 6);
-		carrosAluguel[7] = new CarroAluguel ("Marca 1", "Modelo3", "MLK9531", "784744343", "vermelho", "40", 2017, "oeokd1234", 15000, 7);
-		carrosAluguel[8] = new CarroAluguel ("Marca 1", "Modelo1", "YHR8343", "4828841142", "vermelho", "50", 2016 , "bascw1234", 35000, 8);
-		carrosAluguel[9] = new CarroAluguel ("Marca 2", "Modelo2", "BAC2312", "1929293", "preto", "80", 2015, "lmwle21313", 50000, 9);
+		carrosAluguel[0] = new CarroAluguel ("Marca 1", "Modelo1", "KHJ9531", "vermelho", 15000, 0);
+		carrosAluguel[1] = new CarroAluguel ("Marca 2", "Modelo2", "DME8366", "verde", 10000, 1);
+		carrosAluguel[2] = new CarroAluguel ("Marca 1", "Modelo3", "LMD0293", "vermelho", 56000, 2);
+		carrosAluguel[3] = new CarroAluguel ("Marca 1", "Modelo1", "KEM3942",  "preto", 10000, 3);
+		carrosAluguel[4] = new CarroAluguel ("Marca 2", "Modelo2", "MEM2938",  "vermelho", 2000, 4);
+		carrosAluguel[5] = new CarroAluguel ("Marca 3", "Modelo4", "LEL5464", "branco", 30000, 5);
+		carrosAluguel[6] = new CarroAluguel ("Marca 3", "Modelo4", "LEK3212", "azul",  22000, 6);
+		carrosAluguel[7] = new CarroAluguel ("Marca 1", "Modelo3", "MLK9531",  "vermelho", 15000, 7);
+		carrosAluguel[8] = new CarroAluguel ("Marca 1", "Modelo1", "YHR8343", "vermelho", 35000, 8);
+		carrosAluguel[9] = new CarroAluguel ("Marca 2", "Modelo2", "BAC2312",  "preto", 5000, 9);
+		
+		this.diariaAluguel = diariaAluguel;
+		this.precoSeguro = precoSeguro;
 		//cria objetos de carro aluguel em um vetor
 	} //fim do metodo construtor
-	
-	
-	
 	
 	public CarroAluguel buscaCarroDisponivel(ClienteAluguel cliente) { //inicio do metodo buscaCarroDisponivel
 		for(int i = 0; i < MAX_CARRO; i++) {
@@ -44,8 +52,9 @@ public class AndarAluguel extends Andar { //inicio do metodo AndarAluguel
 		return null;
 	} //fim do metodo buscaCarroDisponivel
 	
-	public void retornaAlugado(int ID) { //inicio do metodo retornaAlugado
+	public void retornaAlugado(int ID, double quilometragem) { //inicio do metodo retornaAlugado
 		carrosAluguel[ID].setAlugado(false); //marca carro como disponivel para aluguel
+		carrosAluguel[ID].setQuilometragem(quilometragem);
 		this.aumentaNumParaAluguel(); //aumenta numero de carros disponiveis
 	} //fim do metodo retornaAlugado
 	
@@ -87,4 +96,40 @@ public class AndarAluguel extends Andar { //inicio do metodo AndarAluguel
 		numParaAluguel ++;
 		this.checaAluguelDisponivel();
 	} //fim do metodo aumentaNumParaAluguel
+	
+	public double calcularMontante(Cliente cliente) {
+		
+		ClienteAluguel clienteAluguel = (ClienteAluguel) cliente; //////////////////////////////////////////////////////////////
+		
+		double diferençaQuilo, quiloAtual, taxa;
+		System.out.println("Entre com a quilometragem atual do carro alugado");
+		
+		quiloAtual = scan.nextDouble();
+		diferençaQuilo = quiloAtual - cliente.getCarro().getQuilometragem();
+		taxa = 1;
+		
+		if(clienteAluguel.getQtdMultas() > limiteMultas)
+			taxa = taxaMultas; //caso cliente ultrapasse limite de multas pre estabelescido
+		   
+		double preçoQuilometragem = diariaAluguel; //iguala preco da diaria
+		
+		if(clienteAluguel.isSeguro()) {
+			preçoQuilometragem += precoSeguro; //caso seja contratado o seguro
+		}
+		
+		if(diferençaQuilo< 500) {
+			preçoQuilometragem += diferençaQuilo *1.99;  
+		}else if (diferençaQuilo >= 500 && diferençaQuilo < 1000) {
+			preçoQuilometragem += diferençaQuilo *2.99; 
+		}else if (diferençaQuilo >= 1000){
+			preçoQuilometragem += diferençaQuilo *3.5; 
+		} //soma ao preco da diaria valor propocional a quilometragem rodada pelo carro alugado
+		return clienteAluguel.getDiarias() * taxa * preçoQuilometragem;		
+		//fim de calcularMontanteAluguelQuilometragem
+		
+	}
+	
+	public void imprimirPrecos() { //imprime tabela de precos de estacionamento
+		System.out.println("Preco da diaria do aluguel: " + diariaAluguel + "\nPreco do seguro: " + precoSeguro);
+	}  //fim do metodo imprimeTabelaPrecosAluguel
 } //fim da classe AndarAluguel
